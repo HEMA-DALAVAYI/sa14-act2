@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Dashboard</title>
+</head>
+<body>
+    <h1>Weather Dashboard</h1>
+
+    <form id="form">
+        <label for="city">City:</label>
+        <input type="text" id="city" required>
+        <button type="submit">Get Weather</button>
+    </form>
+
+    <div id="weather"></div>
+    <div id="forecast"></div>
+
+    <script>
+        document.getElementById('form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const city = document.getElementById('city').value;
+        
+                const weatherResponse = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=22dee9bc856d9b30e0a28127c6d49830&units=metric`);
+                const weatherData = await weatherResponse.json();
+                showWeather(weatherData);
+
+                const forecastResponse = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=22dee9bc856d9b30e0a28127c6d49830&units=metric`);
+                const forecastData = await forecastResponse.json();
+                showForecast(forecastData);});
+
+        function showWeather(weatherData) {
+            const info = document.getElementById('weather');
+            const city = weatherData.name;
+            const temp = weatherData.main.temp;
+            const desc = weatherData.weather[0].description;
+            const humidity = weatherData.main.humidity;
+
+            info.innerHTML = `<p>Weather in ${city}: ${temp}°C, ${desc}, Humidity: ${humidity}%</p>`;}
+
+        function showForecast(forecastData) {
+            const forecastDiv = document.getElementById('forecast');
+            forecastDiv.innerHTML = '<hr><h2>5-Day Forecast</h2>';
+            const forecasts = forecastData.list.filter((item, index) => index % 8 === 0);
+            forecasts.forEach(forecast => {
+                const date = new Date(forecast.dt * 1000).toLocaleDateString();
+                const temp = forecast.main.temp;
+                const desc = forecast.weather[0].description;
+                forecastDiv.innerHTML += `<p>${date}: ${temp}°C, ${desc}</p>`;});}
+    </script>
+</body>
+</html>
+
