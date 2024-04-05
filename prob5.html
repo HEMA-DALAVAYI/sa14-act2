@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Animated Image</title>
+    <style>
+        #moveImage {
+            position: absolute;
+            left: 20%;
+            top: 20%;
+            transition: left 5s ease; 
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <img id="moveImage" src="https://us.123rf.com/450wm/stockgiu/stockgiu1805/stockgiu180511591/102185950-doodle-cute-monkey-wild-animal-in-the-landscape.jpg?ver=6">
+    </div>
+
+    <button id="moveButton">Move</button>
+
+    <script>
+        const moveImage = document.getElementById('moveImage');
+        const moveButton = document.getElementById('moveButton');
+        let isMoved = false;
+
+        moveButton.addEventListener('click', () => {
+            if (!isMoved) {
+                moveImage.style.left = 'calc(50% + 300px)';
+                isMoved = true;
+            } else {
+                moveImage.style.left = '50%';
+                isMoved = false;
+            }
+        });
+    </script>
+</body>
+</html>
