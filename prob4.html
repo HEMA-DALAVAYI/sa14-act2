@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+
+<title>
+    <center>User-Registration Form</center>
+</title>
+
+<style>
+    button:hover{background-color: aquamarine; color: white}
+    .error{font-family: Verdana, Geneva, Tahoma, sans-serif; color:red;background-color: yellow;}
+    body{background-color: antiquewhite; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;}
+</style>
+
+    </head>
+
+
+<body>
+    <h1>USER REGISTRATION FORM</h1>
+    
+    <form id="registrationForm" onsubmit="return false;">
+        <label for="username">Username:</label>
+        <input type="text" id="username">
+        <span id="usernameError" class="error"></span>
+        <br><br>
+
+        <label for="email">Email:</label>
+        <input type="text" id="email">
+        <span id="emailError" class="error"></span>
+        <br><br>
+
+        <label for="password">Password:</label>
+        <input type="text" id="password">
+        <span id="passwordError" class="error"></span>
+        <br><br>
+
+        <input type="submit" value="Register">
+    </form>
+
+    <script>
+        document.addEventListener('submit', 
+
+        function validateForm() {
+            var username = document.getElementById('username').value;
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+
+            var usernameError = document.getElementById('usernameError');
+            var emailError = document.getElementById('emailError');
+            var passwordError = document.getElementById('passwordError');
+
+
+
+            var valid = true;
+
+            if (username.length < 6) {
+                usernameError.textContent = 'USERNAME MUST BE ATLEAST 6 CHARACTERS LONG';
+                valid = false;
+            }
+
+            if (!validateEmail(email)) {
+                emailError.textContent = 'INVALID EMAIL ADDRESS';
+                valid = false;
+            }
+
+            if (password.length < 8 || !containsCapitalLetter(password) || !containsNumber(password)) {
+                passwordError.textContent = 'PASSWORD IS NOT 8 CHARACTERS LONG, PASSWORD SHOULD HAVE A CAPITAL LETTER , PASSWORD SHOULD HAVE A NUMBER';
+                valid = false;
+            }
+
+            return valid;
+        })
+
+        function validateEmail(email) {
+            var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
+        }
+
+        function containsCapitalLetter(password) {
+            return /[A-Z]/.test(password);
+        }
+
+        function containsNumber(password) {
+            return /\d/.test(password);
+        }
+    </script>
+</body>
+</html>
+
