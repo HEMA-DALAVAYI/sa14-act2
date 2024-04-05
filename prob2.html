@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Currency Converter</title>
+</head>
+<body>
+    <h1 style="color: rgb(255, 0, 21);">Currency Converter</h1>
+    <form id="currencyForm">
+        <label for="initial_currency">Select the currency you have:</label>
+        <select id="initial_currency">
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+        </select>
+        <label for="exchanged_currency">Select the currency you want to convert to:</label>
+        <select id="exchanged_currency">
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+        </select>
+        <label for="amt">Enter the currency amount:</label>
+        <input type="text" id="amt" >
+        <input type="submit" value="Convert">
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('currencyForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const fromCurrency = document.getElementById('initial_currency').value;
+            const toCurrency = document.getElementById('exchanged_currency').value;
+            const amount = document.getElementById('amt').value;
+
+            fetch(`https://v6.exchangerate-api.com/v6/5167443b627734ce167319da/pair/${fromCurrency}/${toCurrency}`)
+                .then(response => response.json())
+                .then(response => {
+                    var exchangeRate = response.conversion_rate;
+                    var convertedAmount = (amount * exchangeRate);
+                    document.getElementById('result').innerHTML = convertedAmount;
+                });
+        });
+    </script>
+</body>
+</html>
+
+
