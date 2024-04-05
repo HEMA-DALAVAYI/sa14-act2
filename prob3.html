@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo List</title>
+    <style>
+        body {
+            background-color: pink;}
+    </style>
+</head>
+<body>
+    <h1><center><span style="color: purple;">My Works for Today - LEARN TIME MANAGEMENT</span></center></h1>
+    
+    <div id="todoList">
+    </div>
+
+    <form id="addTaskForm">
+        <center>
+            <label for="title">Task Title:</label>
+            <input type="text" id="title" required>
+            <label for="details">Task Details:</label>
+            <input type="text" id="details">
+            <button type="submit">Add Task</button>
+        </center>
+    </form>
+
+    <section class="task-list">
+        <h1> MY TASKS </h1>
+    </section>
+
+    <script>
+        document.getElementById('addTaskForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // prevent form submission
+            
+            var taskTitle = document.getElementById('title').value;
+            var taskDetails = document.getElementById('details').value;
+            
+            addTask(taskTitle, taskDetails);
+        });
+
+        function addTask(title, details) {
+            const taskElement = document.createElement('div');
+            taskElement.classList.add('task');
+            taskElement.innerHTML = `
+                <h3>${title}</h3>
+                <p>${details}</p>
+                <button class="edit">Edit</button>
+                <button class="delete">Delete</button>
+            `;
+            document.getElementById('todoList').appendChild(taskElement);
+        }
+
+        document.getElementById('todoList').addEventListener('click', function(event) {
+            var target = event.target;
+            if (target.classList.contains('edit')) {
+                editTask(target.parentElement);
+            } else if (target.classList.contains('delete')) {
+                deleteTask(target.parentElement);
+            }
+        });
+
+        function editTask(taskElement) {
+            var titleElement = taskElement.querySelector('h3');
+            var detailsElement = taskElement.querySelector('p');
+
+            var newTitle = prompt("Enter new title:", titleElement.textContent);
+            var newDetails = prompt("Enter new details:", detailsElement.textContent);
+
+            if (newTitle !== null && newDetails !== null) {
+                titleElement.textContent = newTitle;
+                detailsElement.textContent = newDetails;
+            }
+        }
+
+        function deleteTask(taskElement) {
+            taskElement.remove();
+        }
+    </script>
+</body>
+</html>
+
